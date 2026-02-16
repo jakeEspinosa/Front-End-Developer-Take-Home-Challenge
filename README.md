@@ -32,7 +32,7 @@ The data.json file consists of a list of contacts (satellites) and any alerts as
 - Steps to follow:
   - Fork this repository
   - Work on your solution
-  - Create a pull request with @github/cskerbo as the reviewer, if available.
+  - Create a pull request and reply to the request email with a link to your PR
 - Have fun and be as creative as you like!
 
 **Timeframe**

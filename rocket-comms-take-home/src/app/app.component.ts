@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { AppHeader } from './header/header.component';
+import { AppHeader } from './components/header/header.component';
 import { ThemeService } from './core/services/theme.service';
 
 @Component({

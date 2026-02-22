@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RuxSwitch } from '@astrouxds/angular';
-import { ThemeService } from '../../core/services/theme.service';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
   selector: 'app-theme-switch',

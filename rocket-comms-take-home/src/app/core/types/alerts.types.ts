@@ -4,7 +4,7 @@ import { mockApiData } from '../services/api/mock-api-data';
 export type Contact = (typeof mockApiData)[number];
 export type Alert = Contact['alerts'][number];
 export type AlertSummary = {
-  key: symbol;
+  key: string;
   errorMessage: string;
   contactName: number;
   timestamps: {

@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import {
   RuxAccordion,
   RuxAccordionItem,
   RuxCard,
   RuxStatus,
   RuxButton,
-  RuxIcon,
   RuxDialog,
   RuxSelect,
   RuxOption,
@@ -23,7 +22,6 @@ type NewOrAck = 'new' | 'ack';
     RuxCard,
     RuxStatus,
     RuxButton,
-    RuxIcon,
     RuxDialog,
     RuxSelect,
     RuxOption,
@@ -32,45 +30,66 @@ type NewOrAck = 'new' | 'ack';
   styleUrl: './alerts-display.component.css',
 })
 export class AppAlertsDisplay {
-  newAlerts: AlertSummary[] = [];
-  acknowledgedAlerts: AlertSummary[] = [];
-  currentAlerts: AlertSummary[] = [];
-  isNewOrAck: NewOrAck = 'new';
+  newAlerts = signal<AlertSummary[]>([]);
+  acknowledgedAlerts = signal<AlertSummary[]>([]);
+  currentAlerts = signal<AlertSummary[]>([]);
+  isNewOrAck = signal<NewOrAck>('new');
 
-  isDialogOpen: boolean = false;
-  dialogMessageContact: number | null = null;
-  dialogMessageDetail: string | null = null;
+  selectedAlert = signal<AlertSummary | null>(null);
+
+  isDialogOpen = signal(false);
+  dialogMessageContact = signal<number | null>(null);
+  dialogMessageDetail = signal<string | null>(null);
 
   constructor(private satelliteDataApi: SatelliteDataApi) {
-    this.newAlerts = satelliteDataApi.getAllAlerts();
-    this.currentAlerts = this.getCurrentAlerts('new');
+    this.newAlerts.set(this.satelliteDataApi.getAllAlerts());
+    this.getCurrentAlerts('new');
   }
 
   getCurrentAlerts(typeOfAlert: 'new' | 'ack') {
+    this.isNewOrAck.set(typeOfAlert);
     if (typeOfAlert === 'new') {
-      this.isNewOrAck = 'new';
-      this.currentAlerts = this.newAlerts;
+      this.currentAlerts.set([...this.newAlerts()]);
     } else {
-      this.isNewOrAck = 'ack';
-      this.currentAlerts = this.acknowledgedAlerts;
+      this.currentAlerts.set([...this.acknowledgedAlerts()]);
     }
-    return this.currentAlerts;
   }
 
-  showDialog(alert: AlertSummary): void {
-    this.isDialogOpen = true;
-    this.dialogMessageContact = alert.contactName;
-    this.dialogMessageDetail = alert.contactDetail;
+  showDialog(alert: AlertSummary) {
+    this.selectedAlert.set(alert);
+    this.isDialogOpen.set(true);
+    this.dialogMessageContact.set(alert.contactName);
+    this.dialogMessageDetail.set(alert.contactDetail);
   }
 
-  closeDialog(): void {
-    this.isDialogOpen = false;
+  closeDialog() {
+    this.isDialogOpen.set(false);
+    this.selectedAlert.set(null);
   }
 
-  handleStatusSelection(event: Event): void {
-    const value = (event.target as HTMLRuxSelectElement)?.value;
-    if (!value) return;
+  handleRuxDialogClosed(event: any) {
+    if (event.detail && this.selectedAlert()) {
+      this.acknowledgeAlert(this.selectedAlert()!.key);
+    }
+    this.closeDialog();
+  }
 
-    this.getCurrentAlerts(value as 'new' | 'ack');
+  handleStatusSelection(value: string | string[] | undefined) {
+    if (value === 'new' || value === 'ack') {
+      this.getCurrentAlerts(value);
+    }
+  }
+
+  acknowledgeAlert(key: string) {
+    const updatedCurrent = [...this.currentAlerts()];
+    const index = updatedCurrent.findIndex((alert) => alert.key === key);
+
+    if (index !== -1) {
+      const [alert] = updatedCurrent.splice(index, 1);
+      this.currentAlerts.set(updatedCurrent);
+
+      const acknowledgedAlert = { ...alert, acknowledged: true };
+      this.acknowledgedAlerts.set([...this.acknowledgedAlerts(), acknowledgedAlert]);
+    }
   }
 }

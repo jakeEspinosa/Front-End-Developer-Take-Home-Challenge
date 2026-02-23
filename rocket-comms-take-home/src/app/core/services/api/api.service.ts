@@ -24,7 +24,7 @@ export class SatelliteDataApi {
     for (const contact of contactsWithAlerts) {
       for (const alert of contact.alerts as Alert[]) {
         alerts.push({
-          key: Symbol(),
+          key: alert.errorId,
           errorMessage: alert.errorMessage,
           contactName: contact.contactName,
           timestamps: {

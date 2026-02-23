@@ -1,21 +1,21 @@
 <rux-card>
   <div slot="header" class="flex">
     <span class="active-alerts">
-      <span id="active-alerts-number">{{ currentAlerts.length }}</span>
+      <span id="active-alerts-number">{{ currentAlerts().length }}</span>
       <span id="active-alerts-headline"
-        >{{ isNewOrAck === 'new' ? 'Active' : 'Acknowledged' }} Alerts</span
+        >{{ isNewOrAck() === 'new' ? 'Active' : 'Acknowledged' }} Alerts</span
       >
     </span>
     <rux-select
+      #statusSelect
       label="Status"
       input-id="status-select"
       label-id="status-select-label"
       name="status-select"
       size="medium"
-      (ruxchange)="handleStatusSelection($event)"
+      (ruxchange)="handleStatusSelection(statusSelect.value)"
     >
-      <rux-option value="" selected="" label="Select an option" />
-      <rux-option value="new" label="New" />
+      <rux-option value="new" label="New" selected />
       <rux-option value="ack" label="Acknowledged" />
     </rux-select>
   </div>
@@ -26,7 +26,7 @@
       <div class="alert-cell" id="time">Time</div>
     </div>
     <rux-accordion disallow-multiple="">
-      @for (alert of currentAlerts; track alert.key) {
+      @for (alert of currentAlerts(); track alert.key) {
         <rux-accordion-item>
           <div slot="label" class="alert-row">
             <div class="alert-cell message-status">
@@ -49,12 +49,29 @@
         </rux-accordion-item>
       }
     </rux-accordion>
-    {{ isDialogOpen }}
-    <rux-dialog [open]="isDialogOpen" (ruxdialogclosed)="closeDialog()">
+    <rux-dialog [open]="isDialogOpen()" (ruxdialogclosed)="handleRuxDialogClosed($event)">
       <p class="dialog-contact">
-        <span class="dialog-bold">Contact:</span> {{ dialogMessageContact }}
+        <span class="dialog-bold">Contact:</span>
+        {{ dialogMessageContact() }}
       </p>
-      <p><span class="dialog-bold">Detail:</span> {{ dialogMessageDetail }}</p>
+
+      <p>
+        <span class="dialog-bold">Detail:</span>
+        {{ dialogMessageDetail() }}
+      </p>
+
+      <div slot="footer">
+        @let alert = selectedAlert();
+        <div class="flex-space-between">
+          @if (alert && !alert.acknowledged) {
+            <rux-button (click)="acknowledgeAlert(alert.key); closeDialog()">
+              Acknowledge
+            </rux-button>
+          }
+
+          <rux-button secondary (click)="closeDialog()">Close</rux-button>
+        </div>
+      </div>
     </rux-dialog>
   </div>
 </rux-card>

@@ -1,23 +1,6 @@
 import { Injectable } from '@angular/core';
 import { mockApiData } from './mock-api-data';
-
-type Contact = (typeof mockApiData)[number];
-type Alert = Contact['alerts'][number];
-
-type AlertSummary = {
-  key: symbol;
-  errorMessage: string;
-  contactName: number;
-  timestamps: {
-    contactBeginTimestamp: string;
-    contactEndTimestamp: string;
-  };
-  contactSatellite: string;
-  contactDetail: string;
-  errorTime: number;
-  severity: string;
-  acknowledged: boolean;
-};
+import type { Alert, AlertSummary, Contact } from '../../types/alerts.types';
 
 @Injectable({
   providedIn: 'root',

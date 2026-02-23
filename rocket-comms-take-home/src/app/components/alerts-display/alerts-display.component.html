@@ -1,8 +1,10 @@
 <rux-card>
   <div slot="header">
     <span class="active-alerts">
-      <span id="active-alerts-number">{{ alerts.length }}</span>
-      <span id="active-alerts-headline">Active Alerts</span>
+      <span id="active-alerts-number">{{ currentAlerts.length }}</span>
+      <span id="active-alerts-headline"
+        >{{ isNewOrAck === 'new' ? 'Active' : 'Acknowledged' }} Alerts</span
+      >
     </span>
   </div>
   <div id="alerts-list">
@@ -12,7 +14,7 @@
       <div class="alert-cell" id="time">Time</div>
     </div>
     <rux-accordion disallow-multiple="">
-      @for (alert of alerts; track alert.key) {
+      @for (alert of currentAlerts; track alert.key) {
         <rux-accordion-item>
           <div slot="label" class="alert-row">
             <div class="alert-cell message-status">
@@ -27,8 +29,14 @@
               {{ alert.timestamps.contactEndTimestamp }}
             </div>
           </div>
+
+          <div class="accordion-item-content">
+            {{ alert.errorMessage }}
+            <rux-button icon="launch">Details</rux-button>
+          </div>
         </rux-accordion-item>
       }
     </rux-accordion>
+    <rux-dialog open="{{ isDialogOpen }}"></rux-dialog>
   </div>
 </rux-card>

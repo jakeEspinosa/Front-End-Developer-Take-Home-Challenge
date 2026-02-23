@@ -63,3 +63,7 @@
 .dialog-contact {
   margin-bottom: 1rem;
 }
+
+.flex {
+  display: flex;
+}

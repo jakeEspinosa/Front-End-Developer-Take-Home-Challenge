@@ -1,0 +1,48 @@
+.active-alerts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+  width: 20%;
+}
+
+#active-alerts-number {
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+#active-alerts-headline {
+  font-size: 1rem;
+}
+
+#alerts-list .flex {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: center;
+  font-weight: bold;
+  padding: 0.25rem 0;
+}
+
+rux-accordion-item div[slot='label'] {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: center;
+  padding: 0.25rem 0;
+}
+
+#time {
+  margin-right: 4.5rem;
+  font-size: larger;
+}
+
+#contact {
+  margin-right: 1.75rem;
+}
+
+#message {
+  margin-left: 1rem;
+}
+
+#alerts-list-header {
+  font-size: larger;
+}

@@ -1,10 +1,11 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { AppHeader } from './components/header/header.component';
 import { ThemeService } from './core/services/theme.service';
+import { AppAlertsDisplay } from './components/alerts-display/alerts-display.component';
 
 @Component({
   selector: 'app-root',
-  imports: [AppHeader],
+  imports: [AppHeader, AppAlertsDisplay],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

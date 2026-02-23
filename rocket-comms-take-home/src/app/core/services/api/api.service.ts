@@ -57,6 +57,11 @@ export class SatelliteDataApi {
       }
     }
 
+    alerts.sort(
+      (a, b) =>
+        parseInt(b.timestamps.contactBeginTimestamp) - parseInt(a.timestamps.contactBeginTimestamp),
+    );
+
     return alerts;
   }
 

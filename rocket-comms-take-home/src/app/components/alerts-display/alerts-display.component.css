@@ -55,3 +55,11 @@
   display: flex;
   justify-content: space-around;
 }
+
+.dialog-bold {
+  font-weight: bold;
+}
+
+.dialog-contact {
+  margin-bottom: 1rem;
+}

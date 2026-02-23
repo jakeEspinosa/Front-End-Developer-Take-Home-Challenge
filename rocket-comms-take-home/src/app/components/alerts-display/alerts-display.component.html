@@ -32,11 +32,17 @@
 
           <div class="accordion-item-content">
             {{ alert.errorMessage }}
-            <rux-button icon="launch">Details</rux-button>
+            <rux-button icon="launch" (click)="showDialog(alert)">Details</rux-button>
           </div>
         </rux-accordion-item>
       }
     </rux-accordion>
-    <rux-dialog open="{{ isDialogOpen }}"></rux-dialog>
+    {{ isDialogOpen }}
+    <rux-dialog [open]="isDialogOpen" (ruxdialogclosed)="closeDialog()">
+      <p class="dialog-contact">
+        <span class="dialog-bold">Contact:</span> {{ dialogMessageContact }}
+      </p>
+      <p><span class="dialog-bold">Detail:</span> {{ dialogMessageDetail }}</p>
+    </rux-dialog>
   </div>
 </rux-card>

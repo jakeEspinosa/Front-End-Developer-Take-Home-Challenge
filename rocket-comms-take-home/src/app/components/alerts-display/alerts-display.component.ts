@@ -24,7 +24,10 @@ export class AppAlertsDisplay {
   acknowledgedAlerts: AlertSummary[] = [];
   currentAlerts: AlertSummary[] = [];
   isNewOrAck: NewOrAck = 'new';
+
   isDialogOpen: boolean = false;
+  dialogMessageContact: number | null = null;
+  dialogMessageDetail: string | null = null;
 
   constructor(private satelliteDataApi: SatelliteDataApi) {
     this.newAlerts = satelliteDataApi.getAllAlerts();
@@ -39,5 +42,15 @@ export class AppAlertsDisplay {
       this.isNewOrAck = 'ack';
       return this.acknowledgedAlerts;
     }
+  }
+
+  showDialog(alert: AlertSummary): void {
+    this.isDialogOpen = true;
+    this.dialogMessageContact = alert.contactName;
+    this.dialogMessageDetail = alert.contactDetail;
+  }
+
+  closeDialog(): void {
+    this.isDialogOpen = false;
   }
 }

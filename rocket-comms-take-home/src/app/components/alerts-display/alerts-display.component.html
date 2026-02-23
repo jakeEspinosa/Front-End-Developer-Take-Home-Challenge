@@ -30,7 +30,7 @@
         <rux-accordion-item>
           <div slot="label" class="alert-row">
             <div class="alert-cell message-status">
-              <rux-status status="{{ alert.severity }}"></rux-status>
+              <rux-status [status]="alert.acknowledged ? 'off' : alert.severity" />
               <span>{{ alert.errorMessage }}</span>
             </div>
             <div class="alert-cell">

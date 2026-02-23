@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { RuxAccordion, RuxAccordionItem, RuxCard } from '@astrouxds/angular';
+import { RuxAccordion, RuxAccordionItem, RuxCard, RuxStatus } from '@astrouxds/angular';
 import { SatelliteDataApi } from '../../core/services/api/api.service';
 
 @Component({
   selector: 'app-alerts-display',
-  imports: [RuxAccordion, RuxAccordionItem, RuxCard],
+  imports: [RuxAccordion, RuxAccordionItem, RuxCard, RuxStatus],
   templateUrl: './alerts-display.component.html',
   styleUrl: './alerts-display.component.css',
 })

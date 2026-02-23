@@ -15,6 +15,7 @@ type AlertSummary = {
   contactSatellite: string;
   contactDetail: string;
   errorTime: number;
+  severity: string;
   acknowledged: boolean;
 };
 
@@ -50,6 +51,7 @@ export class SatelliteDataApi {
           contactSatellite: contact.contactSatellite,
           contactDetail: contact.contactDetail,
           errorTime: alert.errorTime,
+          severity: alert.errorSeverity,
           acknowledged: false,
         });
       }

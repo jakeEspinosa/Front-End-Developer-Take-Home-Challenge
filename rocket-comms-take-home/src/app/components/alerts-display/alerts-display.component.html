@@ -1,4 +1,4 @@
-<rux-card style="width: 35%">
+<rux-card>
   <div slot="header">
     <span class="active-alerts">
       <span id="active-alerts-number">{{ alerts.length }}</span>
@@ -6,20 +6,26 @@
     </span>
   </div>
   <div id="alerts-list">
-    <div class="flex" id="alerts-list-header">
-      <span id="message">Message</span>
-      <span id="contact">Contact</span>
-      <span id="time">Time</span>
+    <div class="alert-row" id="alerts-list-header">
+      <div class="alert-cell" id="message">Message</div>
+      <div class="alert-cell" id="contact">Contact</div>
+      <div class="alert-cell" id="time">Time</div>
     </div>
     <rux-accordion disallow-multiple="">
       @for (alert of alerts; track alert.key) {
         <rux-accordion-item>
-          <div slot="label" class="flex">
-            <span>{{ alert.errorMessage }}</span>
-            <span>{{ alert.contactName }}</span>
-            <span>{{
-              `${alert.timestamps.contactBeginTimestamp} - ${alert.timestamps.contactEndTimestamp}`
-            }}</span>
+          <div slot="label" class="alert-row">
+            <div class="alert-cell message-status">
+              <rux-status status="{{ alert.severity }}"></rux-status>
+              <span>{{ alert.errorMessage }}</span>
+            </div>
+            <div class="alert-cell">
+              {{ alert.contactName }}
+            </div>
+            <div class="alert-cell">
+              {{ alert.timestamps.contactBeginTimestamp }} -
+              {{ alert.timestamps.contactEndTimestamp }}
+            </div>
           </div>
         </rux-accordion-item>
       }

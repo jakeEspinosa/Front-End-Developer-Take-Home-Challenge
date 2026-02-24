@@ -27,7 +27,7 @@ export class SatelliteDataApi {
           alert.errorSeverity = 'caution';
         }
         alerts.push({
-          key: alert.errorId,
+          key: Symbol(),
           errorMessage: alert.errorMessage,
           contactName: contact.contactName,
           timestamps: {

@@ -6,7 +6,7 @@ export type Alert = Contact['alerts'][number];
 
 // Object types
 export type AlertSummary = {
-  key: string;
+  key: symbol;
   errorMessage: string;
   contactName: number;
   timestamps: {

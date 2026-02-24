@@ -1,5 +1,4 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { TestBed } from '@angular/core/testing';
 import { SatelliteDataApi } from './api.service';
 import type { Contact } from '../../types/alerts.types';
 
@@ -69,13 +68,17 @@ describe('SatelliteDataApi (Vitest)', () => {
 
   it('should convert warning severity to caution', () => {
     const alerts = service.getAllAlerts();
-    const warningAlert = alerts.find((a) => a.key === '1');
+    const warningAlert = alerts.find(
+      (a) => a.errorMessage === 'Warning alert',
+    );
     expect(warningAlert?.severity).toBe('caution');
   });
 
   it('should preserve other severities', () => {
     const alerts = service.getAllAlerts();
-    const criticalAlert = alerts.find((a) => a.key === '2');
+    const criticalAlert = alerts.find(
+      (a) => a.errorMessage === 'Critical alert',
+    );
     expect(criticalAlert?.severity).toBe('critical');
   });
 

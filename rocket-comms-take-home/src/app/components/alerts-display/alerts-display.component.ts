@@ -84,7 +84,7 @@ export class AppAlertsDisplay {
     this.closeDialog();
   }
 
-  acknowledgeAlert(key: string) {
+  acknowledgeAlert(key: symbol) {
     this.allAlerts.update((alerts) =>
       alerts.map((alert) => (alert.key === key ? { ...alert, acknowledged: true } : alert)),
     );

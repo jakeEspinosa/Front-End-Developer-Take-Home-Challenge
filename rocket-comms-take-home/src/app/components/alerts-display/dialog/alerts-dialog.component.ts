@@ -12,6 +12,6 @@ export class AppAlertsDisplayDialog {
   alert = input<AlertSummary | null>(null);
   open = input(false);
 
-  acknowledge = output<string>();
+  acknowledge = output<symbol>();
   close = output<void>();
 }

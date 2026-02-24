@@ -1,10 +1,10 @@
 <rux-card>
   <div slot="header" class="flex-space-between">
     <span class="active-alerts">
-      <span id="active-alerts-number">{{ currentAlerts().length }}</span>
-      <span id="active-alerts-headline"
-        >{{ isNewOrAck() === 'new' ? 'Active' : 'Acknowledged' }} Alerts</span
-      >
+      <span id="active-alerts-number">{{ filteredAlerts().length }}</span>
+      <span id="active-alerts-headline">
+        {{ view() === 'new' ? 'Active' : 'Acknowledged' }} Alerts
+      </span>
     </span>
     <div class="flex-gap">
       <rux-select
@@ -14,7 +14,7 @@
         label-id="status-select-label"
         name="status-select"
         size="medium"
-        (ruxchange)="handleStatusSelection(statusSelect.value)"
+        (ruxchange)="setView(statusSelect.value)"
       >
         <rux-option value="new" label="New" selected />
         <rux-option value="ack" label="Acknowledged" />
@@ -26,7 +26,7 @@
         label-id="severity-select-label"
         name="severity-select"
         size="medium"
-        (ruxchange)="handleSeveritySelection(severitySelect.value)"
+        (ruxchange)="setSeverity(severitySelect.value)"
       >
         <rux-option value="all" label="All" selected />
         <rux-option value="critical" label="Critical" />
@@ -45,7 +45,7 @@
       <div class="alert-cell" id="time">Time</div>
     </div>
     <rux-accordion disallow-multiple="">
-      @for (alert of currentAlerts(); track alert.key) {
+      @for (alert of filteredAlerts(); track alert.key) {
         <rux-accordion-item>
           <div slot="label" class="alert-row">
             <div class="alert-cell message-status">
@@ -69,26 +69,32 @@
       }
     </rux-accordion>
     <rux-dialog [open]="isDialogOpen()" (ruxdialogclosed)="handleRuxDialogClosed($event)">
-      <p class="dialog-contact">
-        <span class="dialog-bold">Contact:</span>
-        {{ dialogMessageContact() }}
-      </p>
+      @let alert = selectedAlert();
 
-      <p>
-        <span class="dialog-bold">Detail:</span>
-        {{ dialogMessageDetail() }}
-      </p>
+      @if (alert) {
+        <p class="dialog-contact">
+          <span class="dialog-bold">Contact:</span>
+          {{ alert.contactName }}
+        </p>
 
+        <p>
+          <span class="dialog-bold">Detail:</span>
+          {{ alert.contactDetail }}
+        </p>
+      }
       <div slot="footer">
-        @let alert = selectedAlert();
         <div class="flex-space-between">
           @if (alert && !alert.acknowledged) {
-            <rux-button (click)="acknowledgeAlert(alert.key); closeDialog()">
+            <rux-button
+              (click)="acknowledgeAlert(alert.key); closeDialog()"
+            >
               Acknowledge
             </rux-button>
           }
 
-          <rux-button secondary (click)="closeDialog()">Close</rux-button>
+          <rux-button secondary (click)="closeDialog()">
+            Close
+          </rux-button>
         </div>
       </div>
     </rux-dialog>

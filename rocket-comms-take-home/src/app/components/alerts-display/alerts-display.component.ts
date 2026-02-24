@@ -52,9 +52,9 @@ export class AppAlertsDisplay {
 
   setView(value: string | string[] | undefined) {
     if (!value) return;
-  
+
     const view = Array.isArray(value) ? value[0] : value;
-  
+
     if (view === 'new' || view === 'ack') {
       this.view.set(view);
     }
@@ -85,16 +85,13 @@ export class AppAlertsDisplay {
 
   acknowledgeAlert(key: string) {
     this.allAlerts.update((alerts) =>
-      alerts.map((alert) =>
-        alert.key === key ? { ...alert, acknowledged: true } : alert,
-      ),
+      alerts.map((alert) => (alert.key === key ? { ...alert, acknowledged: true } : alert)),
     );
   }
 
   private sortAlertsByTime(a: AlertSummary, b: AlertSummary) {
     return (
-      parseInt(b.timestamps.contactBeginTimestamp) -
-      parseInt(a.timestamps.contactBeginTimestamp)
+      parseInt(b.timestamps.contactBeginTimestamp) - parseInt(a.timestamps.contactBeginTimestamp)
     );
   }
 }

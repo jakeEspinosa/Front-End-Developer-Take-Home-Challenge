@@ -4,7 +4,6 @@ import { SatelliteDataApi } from './api.service';
 import type { Contact } from '../../types/alerts.types';
 
 describe('SatelliteDataApi (Vitest)', () => {
-
   const mockContacts: Contact[] = [
     {
       contactName: 'Contact A',
@@ -70,13 +69,13 @@ describe('SatelliteDataApi (Vitest)', () => {
 
   it('should convert warning severity to caution', () => {
     const alerts = service.getAllAlerts();
-    const warningAlert = alerts.find(a => a.key === '1');
+    const warningAlert = alerts.find((a) => a.key === '1');
     expect(warningAlert?.severity).toBe('caution');
   });
 
   it('should preserve other severities', () => {
     const alerts = service.getAllAlerts();
-    const criticalAlert = alerts.find(a => a.key === '2');
+    const criticalAlert = alerts.find((a) => a.key === '2');
     expect(criticalAlert?.severity).toBe('critical');
   });
 
@@ -97,7 +96,7 @@ describe('SatelliteDataApi (Vitest)', () => {
 
   it('should default acknowledged to false', () => {
     const alerts = service.getAllAlerts();
-    alerts.forEach(alert => {
+    alerts.forEach((alert) => {
       expect(alert.acknowledged).toBe(false);
     });
   });

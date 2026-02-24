@@ -1,59 +1,26 @@
-# RocketCommsTakeHome
+# Ground Resources Management (GRM) Alerts Dashboard – Angular Implementation
+This project implements a GRM alerts dashboard using Angular and the Astro UXDS (Astro component library). The goal was to present contact and alert data from data.json in a clear, intuitive, and operator-focused interface.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+## Application Structure
+The application is structured into two primary UI sections:
 
-## Development server
+### Header
+- Displays the dashboard title and integrates Astro theming for a consistent GRM-style interface.
 
-To start a local development server, run:
+### Alerts Display
+- Presents a sortable list of alerts.
+- Each alert displays:
+    - Alert message (errorMessage)
+    - Contact name (contactName)
+    - Contact time (contactBeginTimestamp – contactEndTimestamp)
+- Alerts are sorted by errorTime in descending order (most recent first).
+- Severity filtering allows operators to prioritize high-severity alerts.
+- A “Show Details” button opens a rux-dialog modal displaying:
+    - contactSatellite
+    - contactDetail
 
-```bash
-ng serve
-```
+## Alerts State & Interaction Logic
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The alerts display component uses signals and computed values to manage reactive state in a clean and predictable way. All alerts are stored in a local signal, while derived state such as view mode (new vs ack) and severity filtering are handled through computed logic, ensuring the UI automatically updates whenever state changes. Alerts are filtered by acknowledgement status and severity, then sorted by most recent contact time before rendering.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Dialog interactions are also state-driven: selecting an alert sets the active alert signal and opens the rux-dialog, and when the dialog closes, the alert is programmatically acknowledged. The acknowledgement logic immutably updates the alert collection, ensuring acknowledged alerts become visually distinct and cannot be reverted, aligning with the operational requirements.

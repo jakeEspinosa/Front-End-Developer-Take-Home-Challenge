@@ -23,6 +23,9 @@ export class SatelliteDataApi {
 
     for (const contact of contactsWithAlerts) {
       for (const alert of contact.alerts as Alert[]) {
+        if (alert.errorSeverity === 'warning') {
+          alert.errorSeverity = 'caution';
+        }
         alerts.push({
           key: alert.errorId,
           errorMessage: alert.errorMessage,

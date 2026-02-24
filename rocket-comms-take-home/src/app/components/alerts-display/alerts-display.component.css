@@ -1,3 +1,18 @@
+.flex {
+  display: flex;
+}
+
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-gap {
+  display: flex;
+  gap: 3rem;
+  padding-right: 5rem;
+}
+
 .active-alerts {
   display: flex;
   flex-direction: column;
@@ -15,6 +30,14 @@
   font-size: 1rem;
 }
 
+#alerts-list-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  font-size: larger;
+  font-weight: bold;
+  padding: 0.25rem 0;
+}
+
 .alert-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -28,27 +51,23 @@
   place-content: center;
 }
 
-#alerts-list-header {
-  font-size: larger;
-  font-weight: bold;
-}
-
-#time {
-  margin-right: 5rem;
-  font-size: larger;
+#message {
+  margin-left: 1rem;
 }
 
 #contact {
   margin-right: 3rem;
 }
 
-#message {
-  margin-left: 1rem;
+#time {
+  margin-right: 5rem;
 }
 
 .message-status {
+  display: flex;
   gap: 0.5rem;
   place-content: left;
+  align-items: center;
 }
 
 .accordion-item-content {
@@ -62,19 +81,4 @@
 
 .dialog-contact {
   margin-bottom: 1rem;
-}
-
-.flex {
-  display: flex;
-}
-
-.flex-space-between {
-  display: flex;
-  justify-content: space-between;
-}
-
-.flex-gap {
-  display: flex;
-  gap: 3rem;
-  padding-right: 5rem;
 }

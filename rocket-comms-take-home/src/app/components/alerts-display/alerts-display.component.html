@@ -1,23 +1,42 @@
 <rux-card>
-  <div slot="header" class="flex">
+  <div slot="header" class="flex-space-between">
     <span class="active-alerts">
       <span id="active-alerts-number">{{ currentAlerts().length }}</span>
       <span id="active-alerts-headline"
         >{{ isNewOrAck() === 'new' ? 'Active' : 'Acknowledged' }} Alerts</span
       >
     </span>
-    <rux-select
-      #statusSelect
-      label="Status"
-      input-id="status-select"
-      label-id="status-select-label"
-      name="status-select"
-      size="medium"
-      (ruxchange)="handleStatusSelection(statusSelect.value)"
-    >
-      <rux-option value="new" label="New" selected />
-      <rux-option value="ack" label="Acknowledged" />
-    </rux-select>
+    <div class="flex-gap">
+      <rux-select
+        #statusSelect
+        label="Status"
+        input-id="status-select"
+        label-id="status-select-label"
+        name="status-select"
+        size="medium"
+        (ruxchange)="handleStatusSelection(statusSelect.value)"
+      >
+        <rux-option value="new" label="New" selected />
+        <rux-option value="ack" label="Acknowledged" />
+      </rux-select>
+      <rux-select
+        #severitySelect
+        label="Severity"
+        input-id="severity-select"
+        label-id="severity-select-label"
+        name="severity-select"
+        size="medium"
+        (ruxchange)="handleSeveritySelection(severitySelect.value)"
+      >
+        <rux-option value="all" label="All" selected />
+        <rux-option value="critical" label="Critical" />
+        <rux-option value="serious" label="Serious" />
+        <rux-option value="caution" label="Caution" />
+        <rux-option value="normal" label="Normal" />
+        <rux-option value="standby" label="Standby" />
+        <rux-option value="off" label="Off" />
+      </rux-select>
+    </div>
   </div>
   <div id="alerts-list">
     <div class="alert-row" id="alerts-list-header">

@@ -10,7 +10,7 @@ import {
   RuxOption,
 } from '@astrouxds/angular';
 import { SatelliteDataApi } from '../../core/services/api/api.service';
-import type { AlertSummary } from '../../core/types/alerts.types';
+import type { AlertSummary, Status } from '../../core/types/alerts.types';
 
 type NewOrAck = 'new' | 'ack';
 
@@ -80,6 +80,31 @@ export class AppAlertsDisplay {
     }
   }
 
+  handleSeveritySelection(value: string | string[] | undefined) {
+    if (!value) return;
+    const severity = Array.isArray(value) ? value[0] : value;
+
+    const source = this.isNewOrAck() === 'new' ? this.newAlerts() : this.acknowledgedAlerts();
+    let filtered = source;
+
+    if (severity !== 'all') {
+      filtered = source.filter((alert) => alert.severity === severity);
+    }
+
+    this.currentAlerts.set(filtered);
+  }
+
+  filterByAlert(severity: Status | 'all') {
+    const source = this.isNewOrAck() === 'new' ? this.newAlerts() : this.acknowledgedAlerts();
+    let filtered = source;
+
+    if (severity !== 'all') {
+      filtered = source.filter((alert) => alert.severity === severity);
+    }
+
+    this.currentAlerts.set(this.sortAlertsByTime(filtered));
+  }
+
   acknowledgeAlert(key: string) {
     const updatedCurrent = [...this.currentAlerts()];
     const index = updatedCurrent.findIndex((alert) => alert.key === key);
@@ -89,7 +114,19 @@ export class AppAlertsDisplay {
       this.currentAlerts.set(updatedCurrent);
 
       const acknowledgedAlert = { ...alert, acknowledged: true };
-      this.acknowledgedAlerts.set([...this.acknowledgedAlerts(), acknowledgedAlert]);
+
+      this.acknowledgedAlerts.set(
+        this.sortAlertsByTime([...this.acknowledgedAlerts(), acknowledgedAlert]),
+      );
+
+      this.newAlerts.set(this.sortAlertsByTime(this.newAlerts().filter((a) => a.key !== key)));
     }
+  }
+
+  private sortAlertsByTime(alerts: AlertSummary[]) {
+    return [...alerts].sort(
+      (a, b) =>
+        parseInt(b.timestamps.contactBeginTimestamp) - parseInt(a.timestamps.contactBeginTimestamp),
+    );
   }
 }

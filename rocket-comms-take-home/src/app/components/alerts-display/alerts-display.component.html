@@ -68,31 +68,11 @@
         </rux-accordion-item>
       }
     </rux-accordion>
-    <rux-dialog [open]="isDialogOpen()" (ruxdialogclosed)="handleRuxDialogClosed($event)">
-      @let alert = selectedAlert();
-
-      @if (alert) {
-        <p class="dialog-contact">
-          <span class="dialog-bold">Contact:</span>
-          {{ alert.contactName }}
-        </p>
-
-        <p>
-          <span class="dialog-bold">Detail:</span>
-          {{ alert.contactDetail }}
-        </p>
-      }
-      <div slot="footer">
-        <div class="flex-space-between">
-          @if (alert && !alert.acknowledged) {
-            <rux-button (click)="acknowledgeAlert(alert.key); closeDialog()">
-              Acknowledge
-            </rux-button>
-          }
-
-          <rux-button secondary (click)="closeDialog()"> Close </rux-button>
-        </div>
-      </div>
-    </rux-dialog>
+    <app-alerts-display-dialog
+      [alert]="selectedAlert()"
+      [open]="isDialogOpen()"
+      (acknowledge)="handleRuxDialogClosed($event)"
+      (close)="handleRuxDialogClosed($event)"
+    />
   </div>
 </rux-card>

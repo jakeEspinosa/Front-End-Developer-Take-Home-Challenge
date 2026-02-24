@@ -1,0 +1,8 @@
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dialog-bold {
+  font-weight: bold;
+}

@@ -1,0 +1,25 @@
+<rux-dialog [open]="open()" (ruxdialogclosed)="close.emit()">
+  @let a = alert();
+
+  @if (a) {
+    <p class="dialog-contact">
+      <span class="dialog-bold">Contact:</span>
+      {{ a.contactName }}
+    </p>
+
+    <p>
+      <span class="dialog-bold">Detail:</span>
+      {{ a.contactDetail }}
+    </p>
+  }
+
+  <div slot="footer">
+    <div class="flex-space-between">
+      @if (a && !a.acknowledged) {
+        <rux-button (click)="acknowledge.emit(a.key)"> Acknowledge </rux-button>
+      }
+
+      <rux-button secondary (click)="close.emit()"> Close </rux-button>
+    </div>
+  </div>
+</rux-dialog>

@@ -5,12 +5,12 @@ import {
   RuxCard,
   RuxStatus,
   RuxButton,
-  RuxDialog,
   RuxSelect,
   RuxOption,
 } from '@astrouxds/angular';
 import { SatelliteDataApi } from '../../core/services/api/api.service';
 import type { AlertSummary, Status } from '../../core/types/alerts.types';
+import { AppAlertsDisplayDialog } from './dialog/alerts-dialog.component';
 
 type AlertView = 'new' | 'ack';
 type SeverityFilter = Status | 'all';
@@ -23,9 +23,9 @@ type SeverityFilter = Status | 'all';
     RuxCard,
     RuxStatus,
     RuxButton,
-    RuxDialog,
     RuxSelect,
     RuxOption,
+    AppAlertsDisplayDialog,
   ],
   templateUrl: './alerts-display.component.html',
   styleUrl: './alerts-display.component.css',
@@ -77,7 +77,8 @@ export class AppAlertsDisplay {
   }
 
   handleRuxDialogClosed(event: any) {
-    if (event?.detail && this.selectedAlert()) {
+    if (event && this.selectedAlert()) {
+      console.log('got here');
       this.acknowledgeAlert(this.selectedAlert()!.key);
     }
     this.closeDialog();
